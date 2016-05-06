@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/arliang/rx-demos/issues"
   },
-  "homepage": "https://github.com/arliang/rx-demos#readme"
+  "homepage": "https://github.com/arliang/rx-demos#readme",
+  "dependencies": {
+    "rx": "^4.1.0"
+  }
 }
