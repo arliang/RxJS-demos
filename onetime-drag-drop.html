@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>one time drag drop</title>
+</head>
+
+<body>
+  <div style="position:absolute;top:0;left:0">drag me</div>
+  
+  <script src="http://cdn.bootcss.com/rxjs/4.0.8/rx.lite.compat.js"></script>
+  <script>
+    var dom = document.querySelector('div');
+
+    var drag = Rx.Observable.fromEvent(dom, 'mousedown');
+
+    var move = Rx.Observable.fromEvent(document, 'mousemove');
+
+    var drop = Rx.Observable.fromEvent(dom, 'mouseup');
+
+    var dragging = drag.flatMap( downEvent => {
+      var x0 = downEvent.offsetX, y0 = downEvent.offsetY;
+      return move.map( moveEvent => {
+        moveEvent.preventDefault();
+          return {
+            left: moveEvent.clientX - x0,
+            top: moveEvent.clientY - y0
+          };
+      });
+    }).takeUntil(drop);
+
+    var subscription = dragging.subscribe( pos => {
+      dom.style.top = pos.top + 'px';
+      dom.style.left = pos.left + 'px';
+    });
+  </script>
+</body>
+
+</html>
